@@ -1,0 +1,5 @@
+[
+  {
+    "interfaces":["org.hid4java.jna.HidApiLibrary"]
+  }
+]
