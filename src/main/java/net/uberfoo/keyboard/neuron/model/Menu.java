@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Menu {
+public class Menu implements MenuItem {
     private String label;
     private List<MenuContent> content;
 }

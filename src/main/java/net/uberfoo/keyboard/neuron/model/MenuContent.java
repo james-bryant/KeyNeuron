@@ -8,6 +8,6 @@ public class MenuContent {
     private String label;
     private String type;
     private String showIf;
-    private List<Object> options;
-    private Object content; // Can be a List<MenuContent> or List<Object>
+    private Object content; // Can be List<MenuContent> or List<Object>
+    private List<Object> options; // Can be List<Integer> or List<List<Object>>
 }

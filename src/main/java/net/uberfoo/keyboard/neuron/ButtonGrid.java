@@ -15,7 +15,7 @@ public class ButtonGrid extends Pane {
 
     private final List<KeyData> keys = new ArrayList<>();
 
-    public void setData(List<List<Object>> data) {
+    public void setData(List<Object> data) {
         keys.clear();
         getChildren().clear();
 
@@ -24,68 +24,70 @@ public class ButtonGrid extends Pane {
 
         int rowIndex = 0;
 
-        for (List<Object> row : data) {
-            int columnIndex = 0;
-            double widthMultiplier = 1.0;
-            double heightMultiplier = 1.0;
-            String currentColor = "#FFFFFF";
+        for (Object obj : data) {
+            if (obj instanceof List row) {
+                int columnIndex = 0;
+                double widthMultiplier = 1.0;
+                double heightMultiplier = 1.0;
+                String currentColor = "#FFFFFF";
 
-            for (int i = 0; i < row.size(); i++) {
-                Object item = row.get(i);
+                for (int i = 0; i < row.size(); i++) {
+                    Object item = row.get(i);
 
-                if (item instanceof Map map) {
-                    if (map.containsKey("c")) {
-                        currentColor = (String) map.get("c");
-                    }
-                    if (map.containsKey("x")) {
-                        double xAdjust = ((Number) map.get("x")).doubleValue();
-                        columnIndex += xAdjust * 4; // Assuming units of 0.25
-                    }
-                    if (map.containsKey("y")) {
-                        double yAdjust = ((Number) map.get("y")).doubleValue();
-                        rowIndex += yAdjust * 4; // Assuming units of 0.25
-                    }
-                    if (map.containsKey("w")) {
-                        widthMultiplier = ((Number) map.get("w")).doubleValue();
-                    }
-                    if (map.containsKey("h")) {
-                        heightMultiplier = ((Number) map.get("h")).doubleValue();
-                    }
-                } else if (item instanceof String keyLabel) {
-                    // Calculate colSpan and rowSpan
-                    int colSpan = (int) (widthMultiplier * 4); // Multiply by 4 to handle 0.25 increments
-                    int rowSpan = (int) (heightMultiplier * 4);
-
-                    // Create Button
-                    Button keyButton = new Button(keyLabel);
-                    keyButton.setStyle("-fx-background-color: " + currentColor + ";");
-
-                    // Add KeyData
-                    KeyData keyData = new KeyData(keyButton, rowIndex, columnIndex, rowSpan, colSpan);
-                    keys.add(keyData);
-                    getChildren().add(keyButton);
-
-                    // Mark occupied cells
-                    for (int r = rowIndex; r < rowIndex + rowSpan; r++) {
-                        for (int c = columnIndex; c < columnIndex + colSpan; c++) {
-                            Point2D p = new Point2D(c, r);
-                            if (occupiedCells.containsKey(p)) {
-                                System.out.println("Overlap detected at " + p);
-                            }
-                            occupiedCells.put(p, true);
+                    if (item instanceof Map map) {
+                        if (map.containsKey("c")) {
+                            currentColor = (String) map.get("c");
                         }
+                        if (map.containsKey("x")) {
+                            double xAdjust = ((Number) map.get("x")).doubleValue();
+                            columnIndex += xAdjust * 4; // Assuming units of 0.25
+                        }
+                        if (map.containsKey("y")) {
+                            double yAdjust = ((Number) map.get("y")).doubleValue();
+                            rowIndex += yAdjust * 4; // Assuming units of 0.25
+                        }
+                        if (map.containsKey("w")) {
+                            widthMultiplier = ((Number) map.get("w")).doubleValue();
+                        }
+                        if (map.containsKey("h")) {
+                            heightMultiplier = ((Number) map.get("h")).doubleValue();
+                        }
+                    } else if (item instanceof String keyLabel) {
+                        // Calculate colSpan and rowSpan
+                        int colSpan = (int) (widthMultiplier * 4); // Multiply by 4 to handle 0.25 increments
+                        int rowSpan = (int) (heightMultiplier * 4);
+
+                        // Create Button
+                        Button keyButton = new Button(keyLabel);
+                        keyButton.setStyle("-fx-background-color: " + currentColor + ";");
+
+                        // Add KeyData
+                        KeyData keyData = new KeyData(keyButton, rowIndex, columnIndex, rowSpan, colSpan);
+                        keys.add(keyData);
+                        getChildren().add(keyButton);
+
+                        // Mark occupied cells
+                        for (int r = rowIndex; r < rowIndex + rowSpan; r++) {
+                            for (int c = columnIndex; c < columnIndex + colSpan; c++) {
+                                Point2D p = new Point2D(c, r);
+                                if (occupiedCells.containsKey(p)) {
+                                    System.out.println("Overlap detected at " + p);
+                                }
+                                occupiedCells.put(p, true);
+                            }
+                        }
+
+                        // Advance columnIndex
+                        columnIndex += colSpan;
+
+                        // Reset adjustments
+                        widthMultiplier = 1.0;
+                        heightMultiplier = 1.0;
                     }
-
-                    // Advance columnIndex
-                    columnIndex += colSpan;
-
-                    // Reset adjustments
-                    widthMultiplier = 1.0;
-                    heightMultiplier = 1.0;
                 }
+                // Advance to next row
+                rowIndex += 4; // Assuming each row is 1 unit (4 * 0.25)
             }
-            // Advance to next row
-            rowIndex += 4; // Assuming each row is 1 unit (4 * 0.25)
         }
         requestLayout();
     }

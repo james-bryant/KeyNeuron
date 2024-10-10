@@ -4,61 +4,54 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import net.uberfoo.keyboard.neuron.model.Keyboard;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 public class MainController {
 
     private static final KeyboardHidService KEYBOARD_HID_SERVICE = new KeyboardHidService();
     private static final KeymapService keymapService = new KeymapService();
 
-    private ObservableList<Keyboard> keyboards;
+    private final ObservableList<Keyboard> keyboards = FXCollections.observableArrayList();
 
     @FXML
     private VBox vBox;
 
     @FXML
-    private ChoiceBox<Keyboard> keyboardChooser;
+    private AutoCompleteTextField<Keyboard> keyboardChooser;
 
     @FXML
-    private ButtonGrid buttonGrid = new ButtonGrid();
+    private ButtonGrid buttonGrid;
 
     @FXML
     void initialize() {
 
-        keyboardChooser.setConverter(new StringConverter<Keyboard>() {
-             @Override
-             public String toString(Keyboard keyboard) {
-                 if (keyboard == null) {
-                     return "";
-                 }
-                 return keyboard.getName();
-             }
-
-             @Override
-             public Keyboard fromString(String string) {
-                 return keyboards.stream().filter(x -> x.getName().equals(string)).findFirst().orElse(null);
-             }
-         });
-
         try {
-            var path = Path.of("C:\\Users\\james\\workspace\\VIA_keymaps");
+            var path = Path.of("C:\\Users\\james\\workspace\\keyboards\\src");
             var list = keymapService.getKeyboards(path);
-            keyboards = FXCollections.observableList(list);
-            keyboardChooser.setItems(keyboards);
+            System.out.println(list.size());
+            keyboards.addAll(list);
+            keyboardChooser.getItems().setAll(list);
+        } catch (IOException e) {
+            AlertDialogs.unexpectedAlert(vBox.getScene().getWindow(), e);
+            return;
+        }
 
-            keyboardChooser.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        keyboardChooser.getItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 buttonGrid.setData(newValue.getLayouts().getKeymap());
                 vBox.setMinWidth(buttonGrid.getPrefWidth() + 10);
                 vBox.setMinHeight(buttonGrid.getPrefHeight() + 5 + keyboardChooser.getHeight());
                 vBox.getScene().getWindow().sizeToScene();
-            });
-        } catch (IOException e) {
-            AlertDialogs.unexpectedAlert(vBox.getScene().getWindow(), e);
-        }
+            }
+        });
+
     }
 }

@@ -136,9 +136,6 @@
   "name":"javafx.fxml.FXMLLoader"
 },
 {
-  "name":"javafx.geometry.ChoiceBox"
-},
-{
   "name":"javafx.geometry.Insets",
   "queryAllPublicMethods":true,
   "queryAllPublicConstructors":true,
@@ -153,6 +150,9 @@
 },
 {
   "name":"javafx.scene.Camera"
+},
+{
+  "name":"javafx.scene.Group"
 },
 {
   "name":"javafx.scene.Node",
@@ -170,13 +170,15 @@
   "name":"javafx.scene.Scene"
 },
 {
-  "name":"javafx.scene.control.ChoiceBox",
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"javafx.scene.control.Control",
+  "queryAllDeclaredMethods":true
 },
 {
-  "name":"javafx.scene.control.Control",
+  "name":"javafx.scene.control.TextField",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"javafx.scene.control.TextInputControl",
   "queryAllDeclaredMethods":true
 },
 {
@@ -203,6 +205,18 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAlignment","parameterTypes":["javafx.geometry.Pos"] }, {"name":"setSpacing","parameterTypes":["double"] }]
+},
+{
+  "name":"javafx.scene.shape.LineTo"
+},
+{
+  "name":"javafx.scene.shape.MoveTo"
+},
+{
+  "name":"javafx.scene.shape.Path"
+},
+{
+  "name":"javafx.scene.shape.PathElement"
 },
 {
   "name":"javafx.scene.shape.Rectangle"
@@ -235,6 +249,12 @@
   "name":"javafx.stage.Window"
 },
 {
+  "name":"net.uberfoo.keyboard.neuron.AutoCompleteTextField",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"net.uberfoo.keyboard.neuron.ButtonGrid",
   "queryAllDeclaredMethods":true,
   "queryAllPublicConstructors":true,
@@ -251,6 +271,10 @@
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"initialize","parameterTypes":[] }]
 },
 {
+  "name":"net.uberfoo.keyboard.neuron.model.Autocompletable",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"net.uberfoo.keyboard.neuron.model.CustomKeycode",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -260,11 +284,9 @@
 {
   "name":"net.uberfoo.keyboard.neuron.model.Keyboard",
   "allDeclaredFields":true,
-  "allDeclaredConstructors": true,
-  "allPublicConstructors": true,
-  "allDeclaredMethods": true,
-  "allPublicMethods": true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCustomKeycodes","parameterTypes":["java.util.List"] }, {"name":"setKeycodes","parameterTypes":["java.util.List"] }, {"name":"setLayouts","parameterTypes":["net.uberfoo.keyboard.neuron.model.Layouts"] }, {"name":"setMatrix","parameterTypes":["net.uberfoo.keyboard.neuron.model.Matrix"] }, {"name":"setMenus","parameterTypes":["java.util.List"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"getName","parameterTypes":["java.lang.String"] }, {"name":"setProductId","parameterTypes":["java.lang.String"] }, {"name":"setVendorId","parameterTypes":["java.lang.String"] }]
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCustomKeycodes","parameterTypes":["java.util.List"] }, {"name":"setKeycodes","parameterTypes":["java.util.List"] }, {"name":"setLayouts","parameterTypes":["net.uberfoo.keyboard.neuron.model.Layouts"] }, {"name":"setMatrix","parameterTypes":["net.uberfoo.keyboard.neuron.model.Matrix"] }, {"name":"setMenus","parameterTypes":["java.util.List"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setProductId","parameterTypes":["java.lang.String"] }, {"name":"setVendorId","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"net.uberfoo.keyboard.neuron.model.Layouts",
@@ -293,6 +315,17 @@
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setContent","parameterTypes":["java.lang.Object"] }, {"name":"setLabel","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.uberfoo.keyboard.neuron.model.MenuItem",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"net.uberfoo.keyboard.neuron.model.MenuLabel",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"sun.misc.Unsafe",

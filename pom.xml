@@ -63,7 +63,6 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.34</version>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -142,7 +141,7 @@
               </metadataRepository>
               <mainClass>net.uberfoo.keyboard.neuron.KeyNeuronApplication</mainClass>
               <buildArgs>
-                <buildArg>--initialize-at-build-time=javafx.application.Platform,com.sun.javafx.application.PlatformImpl,javafx.beans.property.SimpleBooleanProperty</buildArg>
+                <buildArg>--initialize-at-build-time=javafx.application.Platform,com.sun.javafx.application.PlatformImpl,javafx.beans.property.SimpleBooleanProperty,com.sun.javafx.event.EventHandlerManager</buildArg>
                 <buildArg>--initialize-at-run-time=sun.reflect.misc.Trampoline</buildArg>
                 <buildArg>--module-path</buildArg>
                 <buildArg>${user.home}/.jdks/javafx-sdk-21.0.4/lib</buildArg>

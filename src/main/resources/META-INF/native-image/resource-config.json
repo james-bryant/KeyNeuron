@@ -111,7 +111,7 @@
   }, {
     "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/Texture_LinearGradient_PAD.obj\\E"
   }, {
-    "pattern":"javafx.graphics:\\Qcom/sun/scenario/effect/impl/hw/d3d/hlsl/LinearConvolveShadow_28.obj\\E"
+    "pattern":"javafx.graphics:\\Qcom/sun/scenario/effect/impl/hw/d3d/hlsl/LinearConvolveShadow_4.obj\\E"
   }, {
     "pattern":"javafx.graphics:\\Qglass.dll\\E"
   }, {
@@ -139,5 +139,8 @@
   }, {
     "name":"com/sun/glass/ui/win/themes",
     "locales":["", "en"]
+  }, {
+    "name":"com/sun/javafx/scene/control/skin/resources/controls",
+    "locales":[""]
   }]
 }

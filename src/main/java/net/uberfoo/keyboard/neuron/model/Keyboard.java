@@ -4,12 +4,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Keyboard {
+public class Keyboard implements Autocompletable {
     private String name;
     private String vendorId;
     private String productId;
     private List<String> keycodes;
-    private List<Menu> menus;
+    private List<MenuItem> menus;
     private List<CustomKeycode> customKeycodes;
     private Matrix matrix;
     private Layouts layouts;

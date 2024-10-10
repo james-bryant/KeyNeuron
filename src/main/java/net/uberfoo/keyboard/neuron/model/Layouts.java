@@ -5,5 +5,5 @@ import java.util.List;
 
 @Data
 public class Layouts {
-    private List<List<Object>> keymap;
+    private List<Object> keymap;
 }
