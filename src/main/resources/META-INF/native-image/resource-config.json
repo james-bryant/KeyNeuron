@@ -7,8 +7,6 @@
   }, {
     "pattern":"\\QMETA-INF/services/javax.xml.stream.XMLInputFactory\\E"
   }, {
-    "pattern":"\\Qcom/sun/jna/win32-x86-64/jnidispatch.dll\\E"
-  }, {
     "pattern":"java.base:\\Qjdk/internal/icu/impl/data/icudt72b/ubidi.icu\\E"
   }, {
     "pattern":"javafx.base:\\Qcom/sun/javafx/reflect/Trampoline.class\\E"
@@ -101,6 +99,8 @@
   }, {
     "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/FillPgram_Color.obj\\E"
   }, {
+    "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/FillPgram_LinearGradient_PAD.obj\\E"
+  }, {
     "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/Solid_TextureFirstPassLCD.obj\\E"
   }, {
     "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/Solid_TextureRGB.obj\\E"
@@ -110,6 +110,8 @@
     "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/Texture_Color.obj\\E"
   }, {
     "pattern":"javafx.graphics:\\Qcom/sun/prism/d3d/hlsl/Texture_LinearGradient_PAD.obj\\E"
+  }, {
+    "pattern":"javafx.graphics:\\Qcom/sun/scenario/effect/impl/hw/d3d/hlsl/LinearConvolveShadow_28.obj\\E"
   }, {
     "pattern":"javafx.graphics:\\Qglass.dll\\E"
   }, {

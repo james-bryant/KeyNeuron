@@ -1,13 +1,8 @@
 [
-  {
-    "name": "sun.nio.cs.MS1252",
-    "allDeclaredConstructors": true,
-    "allPublicConstructors": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredFields": true,
-    "allPublicFields": true
-  },
+{
+  "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
 {
   "name":"com.intellij.rt.execution.application.AppMainV2$Agent",
   "methods":[{"name":"premain","parameterTypes":["java.lang.String","java.lang.instrument.Instrumentation"] }]
@@ -50,13 +45,6 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"com.sun.jna.CallbackProxy",
-  "methods":[{"name":"callback","parameterTypes":["java.lang.Object[]"] }]
-},
-{
-  "name":"com.sun.jna.win32.DLLCallback"
-},
-{
   "name":"com.sun.prism.GraphicsPipeline",
   "methods":[{"name":"getFontFactory","parameterTypes":[] }, {"name":"getPipeline","parameterTypes":[] }]
 },
@@ -66,6 +54,10 @@
 },
 {
   "name":"com.sun.prism.shader.FillPgram_Color_Loader",
+  "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
+},
+{
+  "name":"com.sun.prism.shader.FillPgram_LinearGradient_PAD_Loader",
   "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
 },
 {
@@ -89,6 +81,22 @@
   "methods":[{"name":"loadShader","parameterTypes":["com.sun.prism.ps.ShaderFactory","java.io.InputStream"] }]
 },
 {
+  "name":"com.sun.scenario.effect.impl.hw.d3d.D3DShaderSource",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.prism.PrRenderer",
+  "methods":[{"name":"createRenderer","parameterTypes":["com.sun.scenario.effect.FilterContext"] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.prism.ps.PPSLinearConvolveShadowPeer",
+  "methods":[{"name":"<init>","parameterTypes":["com.sun.scenario.effect.FilterContext","com.sun.scenario.effect.impl.Renderer","java.lang.String"] }]
+},
+{
+  "name":"com.sun.scenario.effect.impl.prism.ps.PPSRenderer",
+  "methods":[{"name":"createRenderer","parameterTypes":["com.sun.scenario.effect.FilterContext"] }]
+},
+{
   "name":"com.sun.xml.internal.stream.XMLInputFactoryImpl",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -109,46 +117,12 @@
   "methods":[{"name":"boot","parameterTypes":[] }, {"name":"findModule","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"java.lang.Object",
-  "methods":[{"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"hashCode","parameterTypes":[] }, {"name":"toString","parameterTypes":[] }]
-},
-{
-  "name":"java.lang.Throwable",
-  "methods":[{"name":"addSuppressed","parameterTypes":["java.lang.Throwable"] }]
-},
-{
-  "name":"java.lang.invoke.MethodHandle",
-  "methods":[{"name":"bindTo","parameterTypes":["java.lang.Object"] }, {"name":"invokeWithArguments","parameterTypes":["java.lang.Object[]"] }]
-},
-{
-  "name":"java.lang.invoke.MethodHandles",
-  "methods":[{"name":"lookup","parameterTypes":[] }, {"name":"privateLookupIn","parameterTypes":["java.lang.Class","java.lang.invoke.MethodHandles$Lookup"] }]
-},
-{
-  "name":"java.lang.invoke.MethodHandles$Lookup",
-  "methods":[{"name":"findSpecial","parameterTypes":["java.lang.Class","java.lang.String","java.lang.invoke.MethodType","java.lang.Class"] }, {"name":"in","parameterTypes":["java.lang.Class"] }, {"name":"unreflectSpecial","parameterTypes":["java.lang.reflect.Method","java.lang.Class"] }]
-},
-{
-  "name":"java.lang.invoke.MethodType",
-  "methods":[{"name":"methodType","parameterTypes":["java.lang.Class","java.lang.Class[]"] }]
-},
-{
-  "name":"java.lang.reflect.Method",
-  "methods":[{"name":"isDefault","parameterTypes":[] }, {"name":"isVarArgs","parameterTypes":[] }]
-},
-{
-  "name":"java.nio.Buffer"
-},
-{
   "name":"java.nio.ByteBuffer",
   "methods":[{"name":"order","parameterTypes":["java.nio.ByteOrder"] }]
 },
 {
   "name":"java.nio.ByteOrder",
   "methods":[{"name":"nativeOrder","parameterTypes":[] }]
-},
-{
-  "name":"java.security.SecureRandomParameters"
 },
 {
   "name":"java.util.concurrent.atomic.AtomicBoolean",
@@ -162,6 +136,9 @@
   "name":"javafx.fxml.FXMLLoader"
 },
 {
+  "name":"javafx.geometry.ChoiceBox"
+},
+{
   "name":"javafx.geometry.Insets",
   "queryAllPublicMethods":true,
   "queryAllPublicConstructors":true,
@@ -170,6 +147,9 @@
 {
   "name":"javafx.geometry.Pos",
   "methods":[{"name":"valueOf","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"javafx.geometry.VBox"
 },
 {
   "name":"javafx.scene.Camera"
@@ -190,30 +170,20 @@
   "name":"javafx.scene.Scene"
 },
 {
-  "name":"javafx.scene.control.Button",
+  "name":"javafx.scene.control.ChoiceBox",
   "queryAllDeclaredMethods":true,
   "queryAllPublicConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"javafx.scene.control.ButtonBase",
-  "queryAllDeclaredMethods":true,
-  "methods":[{"name":"setOnAction","parameterTypes":["javafx.event.EventHandler"] }]
 },
 {
   "name":"javafx.scene.control.Control",
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"javafx.scene.control.Label",
-  "queryAllDeclaredMethods":true,
-  "queryAllPublicConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "name":"javafx.scene.control.VBox"
 },
 {
-  "name":"javafx.scene.control.Labeled",
-  "queryAllDeclaredMethods":true,
-  "methods":[{"name":"setText","parameterTypes":["java.lang.String"] }]
+  "name":"javafx.scene.effect.Effect"
 },
 {
   "name":"javafx.scene.image.Image"
@@ -226,7 +196,7 @@
 {
   "name":"javafx.scene.layout.Region",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"setPadding","parameterTypes":["javafx.geometry.Insets"] }]
+  "methods":[{"name":"setMinHeight","parameterTypes":["double"] }, {"name":"setMinWidth","parameterTypes":["double"] }, {"name":"setPadding","parameterTypes":["javafx.geometry.Insets"] }, {"name":"setPrefWidth","parameterTypes":["double"] }]
 },
 {
   "name":"javafx.scene.layout.VBox",
@@ -236,6 +206,9 @@
 },
 {
   "name":"javafx.scene.shape.Rectangle"
+},
+{
+  "name":"javafx.scene.shape.SVGPath"
 },
 {
   "name":"javafx.scene.shape.Shape"
@@ -253,56 +226,80 @@
   "name":"javafx.scene.web.WebView"
 },
 {
+  "name":"javafx.stage.PopupWindow"
+},
+{
   "name":"javafx.stage.Stage"
 },
 {
   "name":"javafx.stage.Window"
 },
 {
-  "name":"net.uberfoo.keyboard.neuron.HelloController",
-  "allDeclaredFields":true,
+  "name":"net.uberfoo.keyboard.neuron.ButtonGrid",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"onHelloButtonClick","parameterTypes":[] }]
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"net.uberfoo.keyboard.neuron.KeyNeuronApplication",
   "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"main","parameterTypes":["java.lang.String[]"] }]
 },
 {
-  "name":"org.hid4java.jna.HidDeviceInfoStructure",
+  "name":"net.uberfoo.keyboard.neuron.MainController",
   "allDeclaredFields":true,
-  "queryAllPublicConstructors":true,
-  "fields":[{"name":"OPTIONS"}, {"name":"STRING_ENCODING"}, {"name":"STRUCTURE_ALIGNMENT"}, {"name":"TYPE_MAPPER"}],
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"initialize","parameterTypes":[] }]
 },
 {
-  "name":"org.hid4java.jna.HidDeviceStructure",
+  "name":"net.uberfoo.keyboard.neuron.model.CustomKeycode",
   "allDeclaredFields":true,
-  "fields":[{"name":"OPTIONS"}, {"name":"STRING_ENCODING"}, {"name":"STRUCTURE_ALIGNMENT"}, {"name":"TYPE_MAPPER"}]
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setShortName","parameterTypes":["java.lang.String"] }, {"name":"setTitle","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"org.hid4java.jna.WideStringBuffer",
+  "name":"net.uberfoo.keyboard.neuron.model.Keyboard",
   "allDeclaredFields":true,
-  "fields":[{"name":"OPTIONS"}, {"name":"STRING_ENCODING"}, {"name":"STRUCTURE_ALIGNMENT"}, {"name":"TYPE_MAPPER"}]
+  "allDeclaredConstructors": true,
+  "allPublicConstructors": true,
+  "allDeclaredMethods": true,
+  "allPublicMethods": true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCustomKeycodes","parameterTypes":["java.util.List"] }, {"name":"setKeycodes","parameterTypes":["java.util.List"] }, {"name":"setLayouts","parameterTypes":["net.uberfoo.keyboard.neuron.model.Layouts"] }, {"name":"setMatrix","parameterTypes":["net.uberfoo.keyboard.neuron.model.Matrix"] }, {"name":"setMenus","parameterTypes":["java.util.List"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"getName","parameterTypes":["java.lang.String"] }, {"name":"setProductId","parameterTypes":["java.lang.String"] }, {"name":"setVendorId","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.uberfoo.keyboard.neuron.model.Layouts",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setKeymap","parameterTypes":["java.util.List"] }]
+},
+{
+  "name":"net.uberfoo.keyboard.neuron.model.Matrix",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setCols","parameterTypes":["int"] }, {"name":"setRows","parameterTypes":["int"] }]
+},
+{
+  "name":"net.uberfoo.keyboard.neuron.model.Menu",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setContent","parameterTypes":["java.util.List"] }, {"name":"setLabel","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"net.uberfoo.keyboard.neuron.model.MenuContent",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setContent","parameterTypes":["java.lang.Object"] }, {"name":"setLabel","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"sun.misc.Unsafe",
   "fields":[{"name":"theUnsafe"}]
 },
 {
-  "name":"sun.security.provider.DRBG",
-  "methods":[{"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
-},
-{
   "name":"sun.security.provider.MD5",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"sun.security.provider.SHA",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
-  "name":"sun.security.provider.SHA2$SHA256",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 }
 ]

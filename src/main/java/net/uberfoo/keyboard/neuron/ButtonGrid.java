@@ -1,102 +1,149 @@
 package net.uberfoo.keyboard.neuron;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class ButtonGrid extends VBox {
+public class ButtonGrid extends Pane {
 
-    private static final double DEFAULT_BUTTON_WIDTH = 50;
-    private static final double DEFAULT_BUTTON_HEIGHT = 50;
-    private static final double DEFAULT_HSPACING = 5;
-    private static final double DEFAULT_VSPACING = 10;
+    private static final double DEFAULT_KEY_WIDTH = 50.0;
+    private static final double DEFAULT_KEY_HEIGHT = 50.0;
+    private static final double HORIZONTAL_GAP = 5.0;
+    private static final double VERTICAL_GAP = 5.0;
 
-    private double buttonWidth = DEFAULT_BUTTON_WIDTH;
-    private double buttonHeight = DEFAULT_BUTTON_HEIGHT;
-    private double hSpacing = DEFAULT_HSPACING;
-    private double vSpacing = DEFAULT_VSPACING;
-    private String defaultColor = "#FFFFFF";
+    private final List<KeyData> keys = new ArrayList<>();
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public ButtonGrid() {
-        setSpacing(vSpacing);
-        setPadding(new Insets(10));
-    }
-
-    public void setButtonWidth(double buttonWidth) {
-        this.buttonWidth = buttonWidth;
-    }
-
-    public void setButtonHeight(double buttonHeight) {
-        this.buttonHeight = buttonHeight;
-    }
-
-    public void setHorizontalSpacing(double hSpacing) {
-        this.hSpacing = hSpacing;
-    }
-
-    public void setVerticalSpacing(double vSpacing) {
-        this.vSpacing = vSpacing;
-        setSpacing(vSpacing);
-    }
-
-    public void setDefaultColor(String defaultColor) {
-        this.defaultColor = defaultColor;
-    }
-
-    public void setJsonData(String jsonData) throws IOException {
-        // Clear any existing content
+    public void setData(List<List<Object>> data) {
+        keys.clear();
         getChildren().clear();
 
-        // Parse JSON data
-        List<List<Object>> data = parseJsonData(jsonData);
+        // Keep track of occupied cells
+        Map<Point2D, Boolean> occupiedCells = new HashMap<>();
 
-        // Generate UI
+        int rowIndex = 0;
+
         for (List<Object> row : data) {
-            HBox rowBox = new HBox(hSpacing);
+            int columnIndex = 0;
+            double widthMultiplier = 1.0;
+            double heightMultiplier = 1.0;
+            String currentColor = "#FFFFFF";
 
-            String currentColor = defaultColor; // Reset color for each row
-            double currentButtonWidth = buttonWidth;
-            for (Object item : row) {
-                if (item instanceof String) {
-                    // Create a button
-                    Button button = new Button((String) item);
-                    button.setPrefSize(currentButtonWidth, buttonHeight);
-                    button.setStyle("-fx-background-color: " + currentColor + ";");
-                    rowBox.getChildren().add(button);
-                    currentButtonWidth = buttonWidth;
-                } else if (item instanceof Map map) {
+            for (int i = 0; i < row.size(); i++) {
+                Object item = row.get(i);
+
+                if (item instanceof Map map) {
                     if (map.containsKey("c")) {
-                        // Change the color for subsequent buttons
                         currentColor = (String) map.get("c");
                     }
                     if (map.containsKey("x")) {
-                        // Create a blank space
-                        double multiplier = ((Number) map.get("x")).doubleValue();
-                        Region spacer = new Region();
-                        spacer.setPrefSize(buttonWidth * multiplier + hSpacing, buttonHeight);
-                        rowBox.getChildren().add(spacer);
+                        double xAdjust = ((Number) map.get("x")).doubleValue();
+                        columnIndex += xAdjust * 4; // Assuming units of 0.25
+                    }
+                    if (map.containsKey("y")) {
+                        double yAdjust = ((Number) map.get("y")).doubleValue();
+                        rowIndex += yAdjust * 4; // Assuming units of 0.25
                     }
                     if (map.containsKey("w")) {
-                        double width = ((Number) map.get("w")).doubleValue();
-                        currentButtonWidth = width * buttonWidth;
+                        widthMultiplier = ((Number) map.get("w")).doubleValue();
                     }
+                    if (map.containsKey("h")) {
+                        heightMultiplier = ((Number) map.get("h")).doubleValue();
+                    }
+                } else if (item instanceof String keyLabel) {
+                    // Calculate colSpan and rowSpan
+                    int colSpan = (int) (widthMultiplier * 4); // Multiply by 4 to handle 0.25 increments
+                    int rowSpan = (int) (heightMultiplier * 4);
+
+                    // Create Button
+                    Button keyButton = new Button(keyLabel);
+                    keyButton.setStyle("-fx-background-color: " + currentColor + ";");
+
+                    // Add KeyData
+                    KeyData keyData = new KeyData(keyButton, rowIndex, columnIndex, rowSpan, colSpan);
+                    keys.add(keyData);
+                    getChildren().add(keyButton);
+
+                    // Mark occupied cells
+                    for (int r = rowIndex; r < rowIndex + rowSpan; r++) {
+                        for (int c = columnIndex; c < columnIndex + colSpan; c++) {
+                            Point2D p = new Point2D(c, r);
+                            if (occupiedCells.containsKey(p)) {
+                                System.out.println("Overlap detected at " + p);
+                            }
+                            occupiedCells.put(p, true);
+                        }
+                    }
+
+                    // Advance columnIndex
+                    columnIndex += colSpan;
+
+                    // Reset adjustments
+                    widthMultiplier = 1.0;
+                    heightMultiplier = 1.0;
                 }
             }
+            // Advance to next row
+            rowIndex += 4; // Assuming each row is 1 unit (4 * 0.25)
+        }
+        requestLayout();
+    }
 
-            getChildren().add(rowBox);
+    @Override
+    protected void layoutChildren() {
+        double unitWidth = (DEFAULT_KEY_WIDTH + HORIZONTAL_GAP) / 4.0; // Units of 0.25
+        double unitHeight = (DEFAULT_KEY_HEIGHT + VERTICAL_GAP) / 4.0;
+
+        for (KeyData key : keys) {
+            double x = key.column * unitWidth;
+            double y = key.row * unitHeight;
+            double width = key.colSpan * unitWidth - HORIZONTAL_GAP;
+            double height = key.rowSpan * unitHeight - VERTICAL_GAP;
+
+            key.button.resizeRelocate(x, y, width, height);
         }
     }
 
-    private List<List<Object>> parseJsonData(String jsonData) throws IOException {
-        // Use TypeReference to specify the generic type
-        return objectMapper.readValue(jsonData, new TypeReference<List<List<Object>>>() {});
+    @Override
+    protected double computePrefWidth(double height) {
+        double unitWidth = (DEFAULT_KEY_WIDTH + HORIZONTAL_GAP) / 4.0;
+        double maxX = 0;
+        for (KeyData key : keys) {
+            double keyMaxX = key.column * unitWidth + key.colSpan * unitWidth - HORIZONTAL_GAP;
+            if (keyMaxX > maxX) {
+                maxX = keyMaxX;
+            }
+        }
+        return maxX + getInsets().getLeft() + getInsets().getRight();
+    }
+
+    @Override
+    protected double computePrefHeight(double width) {
+        double unitHeight = (DEFAULT_KEY_HEIGHT + VERTICAL_GAP) / 4.0;
+        double maxY = 0;
+        for (KeyData key : keys) {
+            double keyMaxY = key.row * unitHeight + key.rowSpan * unitHeight - VERTICAL_GAP;
+            if (keyMaxY > maxY) {
+                maxY = keyMaxY;
+            }
+        }
+        return maxY + getInsets().getTop() + getInsets().getBottom();
+    }
+
+    public static class KeyData {
+        Button button;
+        int row;
+        int column;
+        int rowSpan;
+        int colSpan;
+
+        public KeyData(Button button, int row, int column, int rowSpan, int colSpan) {
+            this.button = button;
+            this.row = row;
+            this.column = column;
+            this.rowSpan = rowSpan;
+            this.colSpan = colSpan;
+        }
     }
 }

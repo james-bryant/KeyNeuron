@@ -18,9 +18,7 @@ public class KeyNeuronApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(KeyNeuronApplication.class.getResource("main-view.fxml"));
 
-        scene = new Scene(fxmlLoader.load(),
-                preferences.getDouble("WIDTH", 640),
-                preferences.getDouble("HEIGHT", 480));
+        scene = new Scene(fxmlLoader.load());
 
         stage.setX(preferences.getDouble("WINDOW_X", 200));
         stage.setY(preferences.getDouble("WINDOW_Y", 200));
@@ -28,12 +26,11 @@ public class KeyNeuronApplication extends Application {
         stage.setTitle("Key Neuron");
         stage.setScene(scene);
         stage.show();
+        stage.sizeToScene();
     }
 
     @Override
     public void stop() throws Exception {
-        preferences.putDouble("WIDTH", scene.getWidth());
-        preferences.putDouble("HEIGHT", scene.getHeight());
         preferences.putDouble("WINDOW_X", scene.getWindow().getX());
         preferences.putDouble("WINDOW_Y", scene.getWindow().getY());
     }

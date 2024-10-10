@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class KeyboardService {
+public class KeyboardHidService {
 
     public static final int PACKET_SIZE = 32;
     private static final int VENDOR_ID = 0x3434;  // Replace with your VID
