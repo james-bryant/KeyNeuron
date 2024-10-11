@@ -34,7 +34,8 @@ public class MainController {
     void initialize() {
 
         try {
-            var path = Path.of("C:\\Users\\james\\workspace\\keyboards\\src");
+            var envPath = System.getenv("KEYBOARDS_HOME");
+            var path = Path.of(envPath);
             var list = keymapService.getKeyboards(path);
             System.out.println(list.size());
             keyboards.addAll(list);
