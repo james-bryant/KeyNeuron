@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import net.uberfoo.keyboard.neuron.model.Keyboard;
 import org.controlsfx.control.textfield.TextFields;
+import org.hid4java.HidDevice;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,10 +17,13 @@ import java.util.Arrays;
 
 public class MainController {
 
-    private static final KeyboardHidService KEYBOARD_HID_SERVICE = new KeyboardHidService();
+    private static final KeyboardHidService keyboardHidService = new KeyboardHidService();
     private static final KeymapService keymapService = new KeymapService();
 
     private final ObservableList<Keyboard> keyboards = FXCollections.observableArrayList();
+
+    @FXML
+    public ChoiceBox<HidDevice> usbDeviceChooser;
 
     @FXML
     private VBox vBox;
@@ -32,6 +36,31 @@ public class MainController {
 
     @FXML
     void initialize() {
+
+        usbDeviceChooser.setConverter(new StringConverter<>() {
+
+            @Override
+            public String toString(HidDevice device) {
+                if (device == null) return "";
+                return String.format("%s (V:0x%04X P:0x%04X)",
+                        device.getProduct(), device.getVendorId(), device.getProductId());
+            }
+
+            @Override
+            public HidDevice fromString(String string) {
+                return null;
+            }
+        });
+
+        usbDeviceChooser.getItems().setAll(keyboardHidService.enumerateDevices());
+
+        // Add listener for selection changes
+        usbDeviceChooser.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                System.out.println("Selected device: " + newValue);
+                // Perform actions with selectedDevice
+            }
+        });
 
         try {
             var envPath = System.getenv("KEYBOARDS_HOME");

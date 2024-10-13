@@ -89,6 +89,7 @@ public class AutoCompleteTextField<T extends Autocompletable> extends TextField 
                 String selectedItem = suggestionListView.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {
                     setText(selectedItem);
+                    itemProperty.set(items.stream().filter(x -> x.getName().equals(selectedItem)).findFirst().get());
                     positionCaret(getText().length());
                     suggestionPopup.hide();
                 }

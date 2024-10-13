@@ -73,4 +73,18 @@ public class KeyboardHidService {
         // Shutdown HID services
         hidServices.shutdown();
     }
+
+    public List<HidDevice> enumerateDevices() {
+        // Create a HID services object
+        HidServices hidServices = HidManager.getHidServices();
+        // Start the HID services
+        hidServices.start();
+
+        var devices = hidServices.getAttachedHidDevices();
+
+        // Shutdown HID services
+        hidServices.shutdown();
+
+        return devices;
+    }
 }

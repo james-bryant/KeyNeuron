@@ -128,16 +128,6 @@
         <version>${gluonfx.plugin.version}</version>
         <configuration>
           <target>${gluonfx.target}</target>
-          <attachList>
-            <list>display</list>
-            <list>lifecycle</list>
-            <list>statusbar</list>
-            <list>storage</list>
-          </attachList>
-          <reflectionList>
-            <list>net.uberfoo.keyboard.keyneuron.views.PrimaryPresenter</list>
-            <list>net.uberfoo.keyboard.keyneuron.views.SecondaryPresenter</list>
-          </reflectionList>
           <mainClass>${mainClassName}</mainClass>
         </configuration>
       </plugin>
@@ -167,10 +157,6 @@
               <buildArgs>
                 <buildArg>--initialize-at-build-time=javafx.application.Platform,com.sun.javafx.application.PlatformImpl,javafx.beans.property.SimpleBooleanProperty,com.sun.javafx.event.EventHandlerManager</buildArg>
                 <buildArg>--initialize-at-run-time=sun.reflect.misc.Trampoline</buildArg>
-                <buildArg>--module-path</buildArg>
-                <buildArg>${user.home}/.jdks/javafx-sdk-21.0.4/lib</buildArg>
-                <buildArg>--add-modules</buildArg>
-                <buildArg>javafx.fxml,javafx.controls,javafx.graphics,javafx.base</buildArg>
                 <buildArg>-H:+UnlockExperimentalVMOptions</buildArg>
                 <buildArg>-H:+AddAllCharsets</buildArg>
               </buildArgs>
