@@ -3,6 +3,7 @@ package net.uberfoo.keyboard.neuron;
 import org.hid4java.HidDevice;
 import org.hid4java.HidManager;
 import org.hid4java.HidServices;
+import org.hid4java.HidServicesSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,16 @@ public class KeyboardHidService {
     private static final int VENDOR_ID = 0x3434;  // Replace with your VID
     private static final int PRODUCT_ID = 0x0850; // Replace with your PID
 
+    public static long getCombined(int vid, int pid) {
+        return (long)vid << 16 + (long)pid;
+    }
+
     public void sendPerKeyColors(Map<Integer, int[]> keyColorMap) {
+
         HidServices hidServices = HidManager.getHidServices();
 
         HidDevice hidDevice = hidServices.getHidDevice(VENDOR_ID, PRODUCT_ID, null);
+        System.out.println("HidDevice: " + hidDevice);
 
         if (hidDevice != null) {
             if (hidDevice.isClosed()) {
@@ -70,8 +77,6 @@ public class KeyboardHidService {
             System.err.println("HID device not found.");
         }
 
-        // Shutdown HID services
-        hidServices.shutdown();
     }
 
     public List<HidDevice> enumerateDevices() {

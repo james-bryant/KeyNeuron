@@ -4,16 +4,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import net.uberfoo.keyboard.neuron.model.Keyboard;
-import org.controlsfx.control.textfield.TextFields;
 import org.hid4java.HidDevice;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController {
 
@@ -36,6 +35,9 @@ public class MainController {
 
     @FXML
     void initialize() {
+
+        var keys = Map.of(1, new int[]{ 0, 255, 0});
+        keyboardHidService.sendPerKeyColors(keys);
 
         usbDeviceChooser.setConverter(new StringConverter<>() {
 

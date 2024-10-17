@@ -34,7 +34,6 @@ public class KeymapService {
                 });
             }
         } else {
-            System.out.println(path);
             keyboards.add(objectMapper.readValue(path.toFile(), Keyboard.class));
         }
     }
