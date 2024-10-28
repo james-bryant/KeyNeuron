@@ -118,6 +118,21 @@
             <id>default-cli</id>
             <configuration>
               <mainClass>${mainClassName}</mainClass>
+              <enableAutoConfig>true</enableAutoConfig>
+              <modules>
+                <module>javafx.controls</module>
+                <module>javafx.fxml</module>
+              </modules>
+              <resourcesList>
+                <!-- Include all JNA native libraries -->
+                <resource>
+                  <pattern>com/sun/jna/**</pattern>
+                </resource>
+                <!-- Include hidapi native libraries if needed -->
+                <resource>
+                  <pattern>hidapi/**</pattern>
+                </resource>
+              </resourcesList>
             </configuration>
           </execution>
         </executions>

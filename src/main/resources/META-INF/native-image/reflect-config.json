@@ -170,6 +170,12 @@
   "name":"javafx.scene.Scene"
 },
 {
+  "name":"javafx.scene.control.ChoiceBox",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"javafx.scene.control.Control",
   "queryAllDeclaredMethods":true
 },

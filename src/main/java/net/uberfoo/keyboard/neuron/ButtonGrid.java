@@ -15,7 +15,7 @@ public class ButtonGrid extends Pane {
 
     private final List<KeyData> keys = new ArrayList<>();
 
-    public void setData(List<Object> data) {
+    public void setData(List<Object> data, KeyboardHid keyboardHid) {
         keys.clear();
         getChildren().clear();
 
@@ -23,6 +23,7 @@ public class ButtonGrid extends Pane {
         Map<Point2D, Boolean> occupiedCells = new HashMap<>();
 
         int rowIndex = 0;
+        int keyIndex = 0;
 
         for (Object obj : data) {
             if (obj instanceof List row) {
@@ -56,13 +57,13 @@ public class ButtonGrid extends Pane {
                         // Calculate colSpan and rowSpan
                         int colSpan = (int) (widthMultiplier * 4); // Multiply by 4 to handle 0.25 increments
                         int rowSpan = (int) (heightMultiplier * 4);
-
+                        int idx = keyLabel.endsWith("e0") ? -1 : keyIndex++;
                         // Create Button
-                        Button keyButton = new Button(keyLabel);
+                        Button keyButton = new Button(Integer.toString(idx));
                         keyButton.setStyle("-fx-background-color: " + currentColor + ";");
 
                         // Add KeyData
-                        KeyData keyData = new KeyData(keyButton, rowIndex, columnIndex, rowSpan, colSpan);
+                        KeyData keyData = new KeyData(keyButton, idx, rowIndex, columnIndex, rowSpan, colSpan);
                         keys.add(keyData);
                         getChildren().add(keyButton);
 
@@ -135,13 +136,15 @@ public class ButtonGrid extends Pane {
 
     public static class KeyData {
         Button button;
+        int index;
         int row;
         int column;
         int rowSpan;
         int colSpan;
 
-        public KeyData(Button button, int row, int column, int rowSpan, int colSpan) {
+        public KeyData(Button button, int index, int row, int column, int rowSpan, int colSpan) {
             this.button = button;
+            this.index = index;
             this.row = row;
             this.column = column;
             this.rowSpan = rowSpan;
