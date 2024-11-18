@@ -9,11 +9,11 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Map;
 
 public class MainController {
 
-    private final KeymapService keymapService;
     private final KeyboardHidService keyboardHidService;
 
     private final ObservableList<KeyboardHid> keyboards = FXCollections.observableArrayList();
@@ -27,18 +27,17 @@ public class MainController {
     @FXML
     private ButtonGrid buttonGrid;
 
+    private KeyboardHid selectedDevice;
+
     public MainController() throws IOException {
         var envPath = System.getenv("KEYBOARDS_HOME");
         var path = Path.of(envPath);
-        keymapService = new KeymapService(path);
+        KeymapService keymapService = new KeymapService(path);
         keyboardHidService = new KeyboardHidService(keymapService);
     }
 
     @FXML
     void initialize() {
-
-        var keys = Map.of(1, new int[]{ 0, 255, 0});
-        keyboardHidService.sendPerKeyColors(keys);
 
         usbDeviceChooser.setConverter(new StringConverter<>() {
 
@@ -63,12 +62,11 @@ public class MainController {
         usbDeviceChooser.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 System.out.println("Selected device: " + newValue);
-                // Perform actions with selectedDevice
+                selectedDevice = newValue;
             }
         });
 
         var list = keyboardHidService.getKeyboardHids();
-        System.out.println(list.size());
         keyboards.addAll(list);
 
         usbDeviceChooser.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -78,13 +76,19 @@ public class MainController {
                 vBox.setMinHeight(buttonGrid.getPrefHeight() + 5 + usbDeviceChooser.getHeight());
                 vBox.getScene().getWindow().sizeToScene();
                 newValue.sendRGBMatrixMode(12);
-                newValue.sendPerKeyColors(
-                        Map.of(
-                                18, new int[]{255,0,0},
-                                55, new int[]{0,255,0},
-                                99, new int[]{0,0,255}));
             }
         });
 
+        buttonGrid.setOnButtonPressed(keyData -> {
+            System.out.println("Key pressed: " + keyData.label);
+            var coords = keyData.label.lines().findFirst();
+            if (coords.isPresent()) {
+                var xy = Arrays.stream(coords.get().split(","))
+                        .map(String::trim)
+                        .map(Integer::parseInt)
+                        .toArray(Integer[]::new);
+                selectedDevice.sendPerKeyColors(Map.of(xy[0], Map.of(xy[1], new int[]{255, 0, 0})));
+            }
+        });
     }
 }

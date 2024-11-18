@@ -36,42 +36,49 @@ public class KeyboardHid {
         device.write(data, data.length, (byte)0x00);
     }
 
-    public void sendPerKeyColors(Map<Integer, int[]> keyColorMap) {
+    public void sendPerKeyColors(Map<Integer, Map<Integer, int[]>> keyColorMap) {
 
-        int MAX_KEYS_PER_PACKET = (PACKET_SIZE - 4) / 4;
-        List<Integer> keys = new ArrayList<>(keyColorMap.keySet());
+        int MAX_KEYS_PER_PACKET = (PACKET_SIZE - 4) / 5;
 
-        for (int i = 0; i < keys.size(); i += MAX_KEYS_PER_PACKET) {
-            int numKeys = Math.min(MAX_KEYS_PER_PACKET, keys.size() - i);
-            byte[] data = newPacket((byte)0xB0, (4 * numKeys) + 4);
-            data[3] = (byte) numKeys;
+        int numKeys = keyColorMap.values().stream().mapToInt(Map::size).sum();
 
-            int idx = 4;
-            for (int j = 0; j < numKeys; j++) {
-                int keyIndex = keys.get(i + j);
-                int[] rgb = keyColorMap.get(keyIndex);
+        new Thread(() -> {
+            List<Integer> keys = new ArrayList<>(keyColorMap.keySet());
 
-                data[idx++] = (byte) keyIndex;
-                data[idx++] = (byte) rgb[0]; // Red
-                data[idx++] = (byte) rgb[1]; // Green
-                data[idx++] = (byte) rgb[2]; // Blue
+            for (int i = 0; i < numKeys; i += MAX_KEYS_PER_PACKET) {
+                int numKeysInPacket = Math.min(MAX_KEYS_PER_PACKET, numKeys - i);
+                byte[] data = newPacket((byte)0xB0, (5 * numKeys) + 4);
+                data[3] = (byte) numKeysInPacket;
+
+                int idx = 4;
+                for (int y : keys) {
+                    var row = keyColorMap.get(y);
+                    for(int x : row.keySet()) {
+                        int[] rgb = row.get(x);
+                        data[idx++] = (byte) y; // Row
+                        data[idx++] = (byte) x; // Column
+                        data[idx++] = (byte) rgb[0]; // Red
+                        data[idx++] = (byte) rgb[1]; // Green
+                        data[idx++] = (byte) rgb[2]; // Blue
+                    }
+                }
+
+                // Send data packet
+                int bytesWritten = device.write(data, data.length, (byte) 0x00);
+                if (bytesWritten >= data.length) {
+                    System.out.println("Data packet sent successfully.");
+                } else {
+                    System.err.println("Failed to send data packet.");
+                }
+
+                // Small delay between packets
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
-
-            // Send data packet
-            int bytesWritten = device.write(data, data.length, (byte) 0x00);
-            if (bytesWritten >= data.length) {
-                System.out.println("Data packet sent successfully.");
-            } else {
-                System.err.println("Failed to send data packet.");
-            }
-
-            // Small delay between packets
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
+        }).start();
 
     }
 

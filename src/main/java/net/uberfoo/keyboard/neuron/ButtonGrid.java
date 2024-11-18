@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class ButtonGrid extends Pane {
 
@@ -13,6 +14,7 @@ public class ButtonGrid extends Pane {
     private static final double HORIZONTAL_GAP = 5.0;
     private static final double VERTICAL_GAP = 5.0;
 
+    private Consumer<KeyData> buttonPressedListener;
     private final List<KeyData> keys = new ArrayList<>();
 
     public void setData(List<Object> data, KeyboardHid keyboardHid) {
@@ -26,26 +28,24 @@ public class ButtonGrid extends Pane {
         int keyIndex = 0;
 
         for (Object obj : data) {
-            if (obj instanceof List row) {
+            if (obj instanceof List<?> row) {
                 int columnIndex = 0;
                 double widthMultiplier = 1.0;
                 double heightMultiplier = 1.0;
                 String currentColor = "#FFFFFF";
 
-                for (int i = 0; i < row.size(); i++) {
-                    Object item = row.get(i);
-
+                for (Object item : row) {
                     if (item instanceof Map map) {
                         if (map.containsKey("c")) {
                             currentColor = (String) map.get("c");
                         }
                         if (map.containsKey("x")) {
                             double xAdjust = ((Number) map.get("x")).doubleValue();
-                            columnIndex += xAdjust * 4; // Assuming units of 0.25
+                            columnIndex += (int) (xAdjust * 4); // Assuming units of 0.25
                         }
                         if (map.containsKey("y")) {
                             double yAdjust = ((Number) map.get("y")).doubleValue();
-                            rowIndex += yAdjust * 4; // Assuming units of 0.25
+                            rowIndex += (int) (yAdjust * 4); // Assuming units of 0.25
                         }
                         if (map.containsKey("w")) {
                             widthMultiplier = ((Number) map.get("w")).doubleValue();
@@ -59,13 +59,21 @@ public class ButtonGrid extends Pane {
                         int rowSpan = (int) (heightMultiplier * 4);
                         int idx = keyLabel.endsWith("e0") ? -1 : keyIndex++;
                         // Create Button
-                        Button keyButton = new Button(Integer.toString(idx));
+                        Button keyButton = new Button(keyLabel);
                         keyButton.setStyle("-fx-background-color: " + currentColor + ";");
+                        keyButton.setDisable(false);
 
                         // Add KeyData
-                        KeyData keyData = new KeyData(keyButton, idx, rowIndex, columnIndex, rowSpan, colSpan);
+                        KeyData keyData = new KeyData(keyButton, idx, rowIndex, columnIndex, rowSpan, colSpan, keyLabel);
                         keys.add(keyData);
                         getChildren().add(keyButton);
+
+                        // Set the action handler
+                        keyButton.setOnAction(e -> {
+                            if (buttonPressedListener != null) {
+                                buttonPressedListener.accept(keyData);
+                            }
+                        });
 
                         // Mark occupied cells
                         for (int r = rowIndex; r < rowIndex + rowSpan; r++) {
@@ -91,6 +99,10 @@ public class ButtonGrid extends Pane {
             }
         }
         requestLayout();
+    }
+
+    public void setOnButtonPressed(Consumer<KeyData> listener) {
+        this.buttonPressedListener = listener;
     }
 
     @Override
@@ -141,14 +153,16 @@ public class ButtonGrid extends Pane {
         int column;
         int rowSpan;
         int colSpan;
+        String label;
 
-        public KeyData(Button button, int index, int row, int column, int rowSpan, int colSpan) {
+        public KeyData(Button button, int index, int row, int column, int rowSpan, int colSpan, String label) {
             this.button = button;
             this.index = index;
             this.row = row;
             this.column = column;
             this.rowSpan = rowSpan;
             this.colSpan = colSpan;
+            this.label = label;
         }
     }
 }
