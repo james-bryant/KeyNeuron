@@ -4,8 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import net.uberfoo.keyboard.neuron.model.ProcessInfo;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 import java.util.prefs.Preferences;
 
 public class KeyNeuronApplication extends Application {
@@ -13,9 +15,25 @@ public class KeyNeuronApplication extends Application {
     private final Preferences preferences = Preferences.userNodeForPackage(KeyNeuronApplication.class);
 
     private Scene scene;
+    private ProcessService processService;
 
     @Override
     public void start(Stage stage) throws IOException {
+
+        System.out.println("Starting KeyNeuronApplication");
+
+        processService = new WindowsProcessService();
+        processService.start();
+
+        var consumer = new Consumer<ProcessInfo>() {
+            @Override
+            public void accept(ProcessInfo processInfo) {
+                System.out.println(processInfo);
+            }
+        };
+
+        processService.setConsumer(consumer);
+
         FXMLLoader fxmlLoader = new FXMLLoader(KeyNeuronApplication.class.getResource("main-view.fxml"));
 
         scene = new Scene(fxmlLoader.load());
@@ -33,6 +51,7 @@ public class KeyNeuronApplication extends Application {
     public void stop() throws Exception {
         preferences.putDouble("WINDOW_X", scene.getWindow().getX());
         preferences.putDouble("WINDOW_Y", scene.getWindow().getY());
+        processService.stop();
     }
 
     public static void main(String[] args) {
