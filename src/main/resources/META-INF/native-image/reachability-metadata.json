@@ -1289,6 +1289,15 @@
       ]
     },
     {
+      "type": "org.eclipse.jgit.api.MergeCommand$FastForwardMode$Merge",
+      "methods": [
+        {
+          "name": "values",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "org.eclipse.jgit.internal.JGitText",
       "allPublicFields": true,
       "methods": [

@@ -195,7 +195,7 @@
               <mainClass>net.uberfoo.keyboard.neuron.KeyNeuronApplication</mainClass>
               <buildArgs>
                 <buildArg>--initialize-at-build-time=javafx.application.Platform,com.sun.javafx.application.PlatformImpl,javafx.beans.property.SimpleBooleanProperty,com.sun.javafx.event.EventHandlerManager</buildArg>
-                <buildArg>--initialize-at-run-time=sun.reflect.misc.Trampoline,com.sun.jna</buildArg>
+                <buildArg>--initialize-at-run-time=sun.reflect.misc.Trampoline,com.sun.jna,org.eclipse.jgit</buildArg>
                 <buildArg>-H:+TraceClassInitialization</buildArg>
                 <buildArg>-H:+UnlockExperimentalVMOptions</buildArg>
                 <buildArg>-H:+AddAllCharsets</buildArg>
