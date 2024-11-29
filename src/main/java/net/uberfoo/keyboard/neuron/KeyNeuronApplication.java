@@ -48,13 +48,14 @@ public class KeyNeuronApplication extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         preferences.putDouble("WINDOW_X", scene.getWindow().getX());
         preferences.putDouble("WINDOW_Y", scene.getWindow().getY());
         processService.stop();
     }
 
     public static void main(String[] args) {
+        System.out.println("Launching KeyNeuronApplication");
         launch();
     }
 

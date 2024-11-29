@@ -12,8 +12,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.10.2</junit.version>
-    <maven.compiler.release>21</maven.compiler.release>
-    <javafx.version>21</javafx.version>
+    <maven.compiler.release>23</maven.compiler.release>
+    <javafx.version>23</javafx.version>
     <attach.version>4.0.19</attach.version>
     <gluonfx.plugin.version>1.0.23</gluonfx.plugin.version>
     <javafx.plugin.version>0.0.8</javafx.plugin.version>
@@ -56,7 +56,7 @@
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna-platform</artifactId>
-      <version>5.13.0</version> <!-- Use the same version as the core library -->
+      <version>5.14.0</version>
     </dependency>
 
     <!-- hid4java for cross-platform HID USB -->
@@ -99,11 +99,20 @@
   </repositories>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.graalvm.buildtools</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+          <version>0.10.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.13.0</version>
         <configuration>
           <annotationProcessorPaths>
             <path>
@@ -150,6 +159,10 @@
         <configuration>
           <target>${gluonfx.target}</target>
           <mainClass>${mainClassName}</mainClass>
+          <linkerArgs>
+            <arg>management_ext.lib</arg>
+            <arg>psapi.lib</arg>
+          </linkerArgs>
         </configuration>
       </plugin>
     </plugins>
@@ -164,7 +177,6 @@
           <plugin>
             <groupId>org.graalvm.buildtools</groupId>
             <artifactId>native-maven-plugin</artifactId>
-            <version>0.10.3</version>
             <extensions>true</extensions>
             <configuration>
               <classesDirectory>${project.build.outputDirectory}</classesDirectory>
@@ -177,9 +189,16 @@
               <mainClass>net.uberfoo.keyboard.neuron.KeyNeuronApplication</mainClass>
               <buildArgs>
                 <buildArg>--initialize-at-build-time=javafx.application.Platform,com.sun.javafx.application.PlatformImpl,javafx.beans.property.SimpleBooleanProperty,com.sun.javafx.event.EventHandlerManager</buildArg>
-                <buildArg>--initialize-at-run-time=sun.reflect.misc.Trampoline</buildArg>
+                <buildArg>--initialize-at-run-time=sun.reflect.misc.Trampoline,com.sun.jna</buildArg>
+                <buildArg>-H:+TraceClassInitialization</buildArg>
                 <buildArg>-H:+UnlockExperimentalVMOptions</buildArg>
                 <buildArg>-H:+AddAllCharsets</buildArg>
+                <buildArg>-H:+JNI</buildArg>
+                <buildArg>-H:+PrintAnalysisCallTree</buildArg>
+                <buildArg>--report-unsupported-elements-at-runtime</buildArg>
+                <buildArg>--allow-incomplete-classpath</buildArg>
+                <buildArg>-H:+ReportExceptionStackTraces</buildArg>
+                <buildArg>-H:Log=registerResource</buildArg>
               </buildArgs>
             </configuration>
             <executions>
