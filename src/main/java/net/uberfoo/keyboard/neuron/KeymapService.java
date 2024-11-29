@@ -18,13 +18,12 @@ public class KeymapService {
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    private final Path path;
-    private final List<Keyboard> keyboards;
+    private final KeyboardDefinitionsRepoService keyboardDefinitionsRepoService;
     private final Map<Integer, Map<Integer, Keyboard>> vendorProducts = new HashMap<>();
 
-    public KeymapService(Path path) throws IOException {
-        this.path = path;
-        keyboards = getKeyboards();
+    public KeymapService(KeyboardDefinitionsRepoService keyboardDefinitionsRepoService) throws IOException {
+        this.keyboardDefinitionsRepoService = keyboardDefinitionsRepoService;
+        List<Keyboard> keyboards = getKeyboards();
         for (Keyboard keyboard : keyboards) {
             var vendorId = Integer.parseInt(keyboard.getVendorId().trim().replaceFirst("0[xX]", ""), 16);
             if (!vendorProducts.containsKey(vendorId)) {
@@ -43,7 +42,9 @@ public class KeymapService {
 
     public List<Keyboard> getKeyboards() throws IOException {
         var keyboards = new LinkedList<Keyboard>();
-        collectKeyboards(path, keyboards);
+        for (var path : keyboardDefinitionsRepoService.getKeyboardDefinitionPaths()) {
+            collectKeyboards(path, keyboards);
+        }
         return keyboards;
     }
 

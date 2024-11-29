@@ -12,7 +12,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit.version>5.10.2</junit.version>
-    <maven.compiler.release>23</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <javafx.version>23</javafx.version>
     <attach.version>4.0.19</attach.version>
     <gluonfx.plugin.version>1.0.23</gluonfx.plugin.version>
@@ -69,6 +69,12 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>6.9.0.202403050737-r</version>
     </dependency>
 
     <dependency>

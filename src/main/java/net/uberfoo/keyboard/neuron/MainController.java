@@ -6,15 +6,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
+import net.uberfoo.keyboard.neuron.model.ProcessInfo;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.IOException;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class MainController {
 
     private final KeyboardHidService keyboardHidService;
+    private final KeyboardDefinitionsRepoService keyboardDefinitionsRepoService;
+    private final ProcessService processService;
+    private final StorageService storageService;
 
     private final ObservableList<KeyboardHid> keyboards = FXCollections.observableArrayList();
 
@@ -29,10 +35,25 @@ public class MainController {
 
     private KeyboardHid selectedDevice;
 
-    public MainController() throws IOException {
-        var envPath = System.getenv("KEYBOARDS_HOME");
-        var path = Path.of(envPath);
-        KeymapService keymapService = new KeymapService(path);
+    public MainController() throws IOException, GitAPIException {
+        processService = new WindowsProcessService();
+
+        var consumer = new Consumer<ProcessInfo>() {
+            @Override
+            public void accept(ProcessInfo processInfo) {
+                System.out.println(processInfo);
+            }
+        };
+
+        processService.setConsumer(consumer);
+        processService.start();
+
+        storageService = new StorageService(Paths.get(System.getProperty("user.home")));
+        keyboardDefinitionsRepoService = new KeyboardDefinitionsRepoService(storageService);
+
+        keyboardDefinitionsRepoService.syncRepos();
+
+        KeymapService keymapService = new KeymapService(keyboardDefinitionsRepoService);
         keyboardHidService = new KeyboardHidService(keymapService);
     }
 
@@ -91,4 +112,9 @@ public class MainController {
             }
         });
     }
+
+    public void close() {
+        processService.stop();
+    }
+
 }
