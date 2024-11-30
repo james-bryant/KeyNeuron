@@ -5,23 +5,20 @@ import lombok.RequiredArgsConstructor;
 import org.hid4java.HidDevice;
 import org.hid4java.HidManager;
 import org.hid4java.HidServices;
-import org.hid4java.HidServicesSpecification;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class KeyboardHidService {
 
     public static final int PACKET_SIZE = 32;
 
+    /**
+     * Magic numbers to find the USB HID raw device
+     */
     private static final byte DEV_USAGE = 0x61;
     private static final int DEV_USAGE_PAGE = 0xFFFFFF60;
     private static final int DEV_INF_NUM = 0x0001;
-
-    private static final int VENDOR_ID = 0x3434;  // Replace with your VID
-    private static final int PRODUCT_ID = 0x0850; // Replace with your PID
 
     private final KeymapService keymapService;
 

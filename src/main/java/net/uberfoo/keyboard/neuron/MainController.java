@@ -10,7 +10,6 @@ import net.uberfoo.keyboard.neuron.model.ProcessInfo;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -18,9 +17,7 @@ import java.util.function.Consumer;
 public class MainController {
 
     private final KeyboardHidService keyboardHidService;
-    private final KeyboardDefinitionsRepoService keyboardDefinitionsRepoService;
     private final ProcessService processService;
-    private final StorageService storageService;
 
     private final ObservableList<KeyboardHid> keyboards = FXCollections.observableArrayList();
 
@@ -35,7 +32,9 @@ public class MainController {
 
     private KeyboardHid selectedDevice;
 
-    public MainController() throws IOException, GitAPIException {
+    public MainController(KeyboardHidService keyboardHidService) throws IOException, GitAPIException {
+        this.keyboardHidService = keyboardHidService;
+
         processService = new WindowsProcessService();
 
         var consumer = new Consumer<ProcessInfo>() {
@@ -47,14 +46,6 @@ public class MainController {
 
         processService.setConsumer(consumer);
         processService.start();
-
-        storageService = new StorageService(Paths.get(System.getProperty("user.home")));
-        keyboardDefinitionsRepoService = new KeyboardDefinitionsRepoService(storageService);
-
-        keyboardDefinitionsRepoService.syncRepos();
-
-        KeymapService keymapService = new KeymapService(keyboardDefinitionsRepoService);
-        keyboardHidService = new KeyboardHidService(keymapService);
     }
 
     @FXML
