@@ -10,6 +10,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.function.Consumer;
 import java.util.prefs.Preferences;
 
 public class KeyNeuronApplication extends Application {
@@ -19,17 +20,16 @@ public class KeyNeuronApplication extends Application {
     private Scene scene;
     private MainController mainController;
 
-    private KeyboardDefinitionsRepoService keyboardDefinitionsRepoService;
-    private StorageService storageService;
-
     public void init() throws GitAPIException, IOException {
-        storageService = new StorageService(Paths.get(System.getProperty("user.home")));
-        keyboardDefinitionsRepoService = new KeyboardDefinitionsRepoService(storageService);
+        StorageService storageService = new StorageService(Paths.get(System.getProperty("user.home")));
+        KeyboardDefinitionsRepoService keyboardDefinitionsRepoService = new KeyboardDefinitionsRepoService(storageService);
 
         keyboardDefinitionsRepoService.syncRepos(new ProgressMonitor() {
             private int totalTasks;
             private int totalWork;
             private int completed = 0;
+            private int tasksCompleted = 0;
+
             @Override
             public void start(int totalTasks) {
                 this.totalTasks = totalTasks;
@@ -46,13 +46,17 @@ public class KeyNeuronApplication extends Application {
             @Override
             public void update(int completed) {
                 this.completed += completed;
-                System.out.println("Completed " + this.completed + " of " + totalWork + " work");
-                notifyPreloader(new Preloader.ProgressNotification(1.0 * this.completed / totalWork));
+                double p = (double) tasksCompleted / totalTasks;
+                p += (((double)completed / totalWork) / totalTasks);
+                var progress = new Preloader.ProgressNotification(p / 2.0);
+                System.out.println("Progress: " + progress.getProgress());
+                notifyPreloader(progress);
             }
 
             @Override
             public void endTask() {
-
+                tasksCompleted++;
+                System.out.println("Completed task " + tasksCompleted + " of " + totalTasks);
             }
 
             @Override
@@ -65,6 +69,20 @@ public class KeyNeuronApplication extends Application {
 
             }
         });
+
+        var keymapService = new KeymapService(keyboardDefinitionsRepoService, new Consumer<Preloader.ProgressNotification>() {
+            @Override
+            public void accept(Preloader.ProgressNotification progressNotification) {
+                double p = progressNotification.getProgress();
+                notifyPreloader(new Preloader.ProgressNotification((p / 2.0) + 0.5));
+            }
+        });
+
+        FXMLLoader fxmlLoader = new FXMLLoader(KeyNeuronApplication.class.getResource("main-view.fxml"));
+        mainController = new MainController(new KeyboardHidService(keymapService));
+        fxmlLoader.setControllerFactory(c -> mainController);
+
+        scene = new Scene(fxmlLoader.load());
     }
 
     @Override
@@ -72,18 +90,10 @@ public class KeyNeuronApplication extends Application {
 
         System.out.println("Starting KeyNeuronApplication");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(KeyNeuronApplication.class.getResource("main-view.fxml"));
-
-        var keymapService = new KeymapService(keyboardDefinitionsRepoService);
-
-        mainController = new MainController(new KeyboardHidService(keymapService));
-        fxmlLoader.setControllerFactory(c -> mainController);
-
         stage.setX(preferences.getDouble("WINDOW_X", 200));
         stage.setY(preferences.getDouble("WINDOW_Y", 200));
 
         stage.setTitle("Key Neuron");
-        scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
         stage.sizeToScene();
@@ -98,6 +108,7 @@ public class KeyNeuronApplication extends Application {
 
     public static void main(String[] args) {
         System.out.println("Launching KeyNeuronApplication");
+        System.setProperty("javafx.preloader", KeyNeuronPreloader.class.getName());
         launch();
     }
 

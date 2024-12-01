@@ -9,12 +9,13 @@ import javafx.scene.layout.StackPane;
 public class KeyNeuronPreloader extends Preloader {
 
     private Stage preloaderStage;
+    private ProgressBar progressBar;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.preloaderStage = primaryStage;
 
-        ProgressBar progressBar = new ProgressBar();
+        progressBar = new ProgressBar();
         StackPane root = new StackPane(progressBar);
         Scene scene = new Scene(root, 300, 150);
 
@@ -25,8 +26,8 @@ public class KeyNeuronPreloader extends Preloader {
 
     @Override
     public void handleApplicationNotification(PreloaderNotification info) {
-        if (info instanceof ProgressNotification) {
-            // Update progress bar if needed
+        if (info instanceof ProgressNotification progressNotification) {
+            progressBar.setProgress(progressNotification.getProgress());
         }
     }
 

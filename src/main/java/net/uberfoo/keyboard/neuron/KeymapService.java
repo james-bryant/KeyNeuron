@@ -2,15 +2,16 @@ package net.uberfoo.keyboard.neuron;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Preloader;
 import net.uberfoo.keyboard.neuron.model.Keyboard;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class KeymapService {
@@ -21,16 +22,9 @@ public class KeymapService {
     private final KeyboardDefinitionsRepoService keyboardDefinitionsRepoService;
     private final Map<Integer, Map<Integer, Keyboard>> vendorProducts = new HashMap<>();
 
-    public KeymapService(KeyboardDefinitionsRepoService keyboardDefinitionsRepoService) throws IOException {
+    public KeymapService(KeyboardDefinitionsRepoService keyboardDefinitionsRepoService, Consumer<Preloader.ProgressNotification> progressNotificationConsumer) throws IOException {
         this.keyboardDefinitionsRepoService = keyboardDefinitionsRepoService;
-        List<Keyboard> keyboards = getKeyboards();
-        for (Keyboard keyboard : keyboards) {
-            var vendorId = Integer.parseInt(keyboard.getVendorId().trim().replaceFirst("0[xX]", ""), 16);
-            if (!vendorProducts.containsKey(vendorId)) {
-                vendorProducts.put(vendorId, new HashMap<>());
-            }
-            vendorProducts.get(vendorId).put(Integer.parseInt(keyboard.getProductId().trim().replaceFirst("0[xX]", ""), 16), keyboard);
-        }
+        getKeyboards(progressNotificationConsumer);
     }
 
     public Keyboard getKeyboard(int vendorId, int productId) {
@@ -40,27 +34,47 @@ public class KeymapService {
         return vendorProducts.get(vendorId).get(productId);
     }
 
-    public List<Keyboard> getKeyboards() throws IOException {
-        var keyboards = new LinkedList<Keyboard>();
-        for (var path : keyboardDefinitionsRepoService.getKeyboardDefinitionPaths()) {
-            collectKeyboards(path, keyboards);
+    public void getKeyboards(Consumer<Preloader.ProgressNotification> progressNotificationConsumer) throws IOException {
+        List<Path> keyboardDefinitionPaths = keyboardDefinitionsRepoService.getKeyboardDefinitionPaths();
+        int count = 0;
+        for (var path : keyboardDefinitionPaths) {
+            try {
+                count += (int) Files.walk(path)
+                        .parallel()               // Enable parallel processing for speed
+                        .filter(Files::isRegularFile) // Only count files
+                        .count();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return keyboards;
+        final int fileCount = count;
+        final int[] p = {0};
+        for (var path : keyboardDefinitionPaths) {
+            collectKeyboards(path, notification -> {
+                p[0] += (int) (notification.getProgress() * fileCount);
+                progressNotificationConsumer.accept(new Preloader.ProgressNotification((float)p[0] / (float)fileCount));
+            });
+        }
     }
 
-    private void collectKeyboards(Path path, List<Keyboard> keyboards) throws IOException {
+    private void collectKeyboards(Path path, Consumer<Preloader.ProgressNotification> progressNotificationConsumer) throws IOException {
         if (Files.isDirectory(path)) {
             try (Stream<Path> stream = Files.list(path)) {
                 stream.filter(x -> Files.isDirectory(x) || x.toString().endsWith(".json")).forEach(p -> {
                     try {
-                        collectKeyboards(p, keyboards);
+                        collectKeyboards(p, progressNotificationConsumer);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 });
             }
         } else {
-            keyboards.add(objectMapper.readValue(path.toFile(), Keyboard.class));
+            var keyboard = objectMapper.readValue(path.toFile(), Keyboard.class);
+            var vendorId = Integer.parseInt(keyboard.getVendorId().trim().replaceFirst("0[xX]", ""), 16);
+            if (!vendorProducts.containsKey(vendorId)) {
+                vendorProducts.put(vendorId, new HashMap<>());
+            }
+            vendorProducts.get(vendorId).put(Integer.parseInt(keyboard.getProductId().trim().replaceFirst("0[xX]", ""), 16), keyboard);
         }
     }
 
