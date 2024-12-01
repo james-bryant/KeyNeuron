@@ -38,24 +38,30 @@ public class KeyNeuronApplication extends Application {
 
             @Override
             public void beginTask(String title, int totalWork) {
+                if (tasksCompleted > totalTasks) {
+                    totalTasks = tasksCompleted;
+                }
                 this.totalWork = totalWork;
-                completed = 0;
+                this.completed = 0;
                 System.out.println("Beginning task " + title + " with " + totalWork + " work");
             }
 
             @Override
             public void update(int completed) {
                 this.completed += completed;
-                double p = (double) tasksCompleted / totalTasks;
-                p += (((double)completed / totalWork) / totalTasks);
+                double p = tasksCompleted == 0 ? 0 : (double)tasksCompleted / (double)totalTasks;
+                p += (((double)this.completed / (double)totalWork) / (double)totalTasks);
                 var progress = new Preloader.ProgressNotification(p / 2.0);
-                System.out.println("Progress: " + progress.getProgress());
-                notifyPreloader(progress);
+                if ((this.completed % 100) == 0) {
+                    System.out.printf("Progress: (%d/%d) %1.3f %1.3f%n", this.completed, totalWork, p, progress.getProgress());
+                    notifyPreloader(progress);
+                }
             }
 
             @Override
             public void endTask() {
                 tasksCompleted++;
+                completed = 0;
                 System.out.println("Completed task " + tasksCompleted + " of " + totalTasks);
             }
 

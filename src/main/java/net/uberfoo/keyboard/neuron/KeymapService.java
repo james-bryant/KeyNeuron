@@ -21,20 +21,11 @@ public class KeymapService {
 
     private final KeyboardDefinitionsRepoService keyboardDefinitionsRepoService;
     private final Map<Integer, Map<Integer, Keyboard>> vendorProducts = new HashMap<>();
+    private final int fileCount;
+    private int currentCount = 0;
 
     public KeymapService(KeyboardDefinitionsRepoService keyboardDefinitionsRepoService, Consumer<Preloader.ProgressNotification> progressNotificationConsumer) throws IOException {
         this.keyboardDefinitionsRepoService = keyboardDefinitionsRepoService;
-        getKeyboards(progressNotificationConsumer);
-    }
-
-    public Keyboard getKeyboard(int vendorId, int productId) {
-        if (!vendorProducts.containsKey(vendorId)) {
-            return null;
-        }
-        return vendorProducts.get(vendorId).get(productId);
-    }
-
-    public void getKeyboards(Consumer<Preloader.ProgressNotification> progressNotificationConsumer) throws IOException {
         List<Path> keyboardDefinitionPaths = keyboardDefinitionsRepoService.getKeyboardDefinitionPaths();
         int count = 0;
         for (var path : keyboardDefinitionPaths) {
@@ -47,13 +38,22 @@ public class KeymapService {
                 throw new RuntimeException(e);
             }
         }
-        final int fileCount = count;
+        fileCount = count;
+
+        getKeyboards(progressNotificationConsumer);
+    }
+
+    public Keyboard getKeyboard(int vendorId, int productId) {
+        if (!vendorProducts.containsKey(vendorId)) {
+            return null;
+        }
+        return vendorProducts.get(vendorId).get(productId);
+    }
+
+    public void getKeyboards(Consumer<Preloader.ProgressNotification> progressNotificationConsumer) throws IOException {
         final int[] p = {0};
-        for (var path : keyboardDefinitionPaths) {
-            collectKeyboards(path, notification -> {
-                p[0] += (int) (notification.getProgress() * fileCount);
-                progressNotificationConsumer.accept(new Preloader.ProgressNotification((float)p[0] / (float)fileCount));
-            });
+        for (var path : keyboardDefinitionsRepoService.getKeyboardDefinitionPaths()) {
+            collectKeyboards(path, progressNotificationConsumer);
         }
     }
 
@@ -75,6 +75,8 @@ public class KeymapService {
                 vendorProducts.put(vendorId, new HashMap<>());
             }
             vendorProducts.get(vendorId).put(Integer.parseInt(keyboard.getProductId().trim().replaceFirst("0[xX]", ""), 16), keyboard);
+            currentCount++;
+            progressNotificationConsumer.accept(new Preloader.ProgressNotification((double)currentCount/fileCount));
         }
     }
 
