@@ -112,6 +112,11 @@
           <artifactId>native-maven-plugin</artifactId>
           <version>0.10.3</version>
         </plugin>
+        <plugin>
+          <groupId>com.gluonhq</groupId>
+          <artifactId>gluonfx-maven-plugin</artifactId>
+          <version>${gluonfx.plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -161,20 +166,32 @@
       <plugin>
         <groupId>com.gluonhq</groupId>
         <artifactId>gluonfx-maven-plugin</artifactId>
-        <version>${gluonfx.plugin.version}</version>
         <configuration>
           <target>${gluonfx.target}</target>
           <mainClass>${mainClassName}</mainClass>
-          <linkerArgs>
-            <arg>management_ext.lib</arg>
-            <arg>psapi.lib</arg>
-          </linkerArgs>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
+    <profile>
+      <id>windows</id>
+      <build>
+        <plugins>
+            <plugin>
+              <groupId>com.gluonhq</groupId>
+              <artifactId>gluonfx-maven-plugin</artifactId>
+              <configuration>
+                <linkerArgs>
+                  <arg>management_ext.lib</arg>
+                  <arg>psapi.lib</arg>
+                </linkerArgs>
+              </configuration>
+            </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>native</id>
       <build>
