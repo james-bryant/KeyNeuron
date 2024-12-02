@@ -256,15 +256,6 @@
       "type": "com.sun.management.HotSpotDiagnosticMXBean"
     },
     {
-      "type": "com.sun.management.OperatingSystemMXBean",
-      "methods": [
-        {
-          "name": "getProcessCpuLoad",
-          "parameterTypes": []
-        }
-      ]
-    },
-    {
       "type": "com.sun.management.ThreadMXBean"
     },
     {
