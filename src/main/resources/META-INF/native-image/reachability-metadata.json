@@ -256,6 +256,15 @@
       "type": "com.sun.management.HotSpotDiagnosticMXBean"
     },
     {
+      "type": "com.sun.management.OperatingSystemMXBean",
+      "methods": [
+        {
+          "name": "getProcessCpuLoad",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.sun.management.ThreadMXBean"
     },
     {
@@ -269,6 +278,9 @@
     },
     {
       "type": "com.sun.management.internal.HotSpotThreadImpl"
+    },
+    {
+      "type": "com.sun.management.internal.OperatingSystemImpl"
     },
     {
       "type": "com.sun.prism.GraphicsPipeline",
@@ -13556,6 +13568,15 @@
             "boolean",
             "java.util.List"
           ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.management.internal.OperatingSystemImpl",
+      "methods": [
+        {
+          "name": "initialize0",
+          "parameterTypes": []
         }
       ]
     },
