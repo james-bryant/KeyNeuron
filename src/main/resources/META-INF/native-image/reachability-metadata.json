@@ -271,9 +271,6 @@
       "type": "com.sun.management.internal.HotSpotThreadImpl"
     },
     {
-      "type": "com.sun.management.internal.OperatingSystemImpl"
-    },
-    {
       "type": "com.sun.prism.GraphicsPipeline",
       "methods": [
         {
@@ -13559,15 +13556,6 @@
             "boolean",
             "java.util.List"
           ]
-        }
-      ]
-    },
-    {
-      "type": "com.sun.management.internal.OperatingSystemImpl",
-      "methods": [
-        {
-          "name": "initialize0",
-          "parameterTypes": []
         }
       ]
     },
