@@ -193,6 +193,22 @@
       </build>
     </profile>
     <profile>
+      <id>macos</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>gluonfx-maven-plugin</artifactId>
+            <configuration>
+              <linkerArgs>
+                <arg>${GRAALVM_HOME}/lib/static/darwin-aarch64/libmanagement_ext.a</arg>
+              </linkerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>native</id>
       <build>
         <plugins>

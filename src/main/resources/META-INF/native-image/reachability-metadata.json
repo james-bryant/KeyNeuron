@@ -34,6 +34,15 @@
       "type": "[Z"
     },
     {
+      "type": "apple.security.AppleProvider",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.fasterxml.jackson.databind.ext.Java7SupportImpl",
       "methods": [
         {
@@ -136,7 +145,43 @@
       ]
     },
     {
+      "type": "com.sun.glass.ui.Application"
+    },
+    {
+      "type": "com.sun.glass.ui.Menu"
+    },
+    {
+      "type": "com.sun.glass.ui.MenuItem$Callback"
+    },
+    {
       "type": "com.sun.glass.ui.Screen"
+    },
+    {
+      "type": "com.sun.glass.ui.Size"
+    },
+    {
+      "type": "com.sun.glass.ui.View"
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacApplication"
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacMenuBarDelegate"
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacPixels"
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacPlatformFactory",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacView"
     },
     {
       "type": "com.sun.glass.ui.win.WinDnDClipboard"
@@ -149,6 +194,15 @@
       "methods": [
         {
           "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.javafx.font.coretext.CTFactory",
+      "methods": [
+        {
+          "name": "getFactory",
           "parameterTypes": []
         }
       ]
@@ -268,6 +322,9 @@
       "type": "com.sun.management.ThreadMXBean"
     },
     {
+      "type": "com.sun.management.UnixOperatingSystemMXBean"
+    },
+    {
       "type": "com.sun.management.VMOption"
     },
     {
@@ -300,6 +357,24 @@
       "methods": [
         {
           "name": "getInstance",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.prism.es2.ES2Pipeline",
+      "methods": [
+        {
+          "name": "getInstance",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.prism.es2.MacGLFactory",
+      "methods": [
+        {
+          "name": "<init>",
           "parameterTypes": []
         }
       ]
@@ -385,6 +460,15 @@
             "com.sun.prism.ps.ShaderFactory",
             "java.io.InputStream"
           ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.scenario.effect.impl.es2.ES2ShaderSource",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
         }
       ]
     },
@@ -540,6 +624,9 @@
       "type": "java.lang.Object"
     },
     {
+      "type": "java.lang.Runnable"
+    },
+    {
       "type": "java.lang.Short",
       "fields": [
         {
@@ -567,7 +654,15 @@
       ]
     },
     {
-      "type": "java.lang.Throwable"
+      "type": "java.lang.Throwable",
+      "methods": [
+        {
+          "name": "addSuppressed",
+          "parameterTypes": [
+            "java.lang.Throwable"
+          ]
+        }
+      ]
     },
     {
       "type": "java.lang.Void",
@@ -1606,6 +1701,17 @@
       ]
     },
     {
+      "type": "sun.security.provider.NativePRNG",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.security.SecureRandomParameters"
+          ]
+        }
+      ]
+    },
+    {
       "type": "sun.security.provider.SHA",
       "methods": [
         {
@@ -1911,6 +2017,13 @@
       "type": {
         "proxy": [
           "net.uberfoo.keyboard.neuron.WindowsProcessService$User32"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "org.hid4java.jna.DarwinHidApiLibrary"
         ]
       }
     },
@@ -6004,7 +6117,22 @@
       "glob": "com/sun/javafx/tk/quantum/QuantumMessagesBundle_en_US.properties"
     },
     {
+      "glob": "com/sun/jna/darwin-aarch64/libjnidispatch.jnilib"
+    },
+    {
       "glob": "com/sun/jna/win32-x86-64/jnidispatch.dll"
+    },
+    {
+      "glob": "darwin-aarch64/libhidapi.dylib"
+    },
+    {
+      "glob": "darwin-aarch64/libuser32.dylib"
+    },
+    {
+      "glob": "darwin/libuser32.dylib"
+    },
+    {
+      "glob": "libuser32.dylib"
     },
     {
       "glob": "net/uberfoo/keyboard/neuron/main-view.fxml"
@@ -6023,6 +6151,10 @@
     },
     {
       "glob": "win32-x86-64/hidapi.dll"
+    },
+    {
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt74b/nfc.nrm"
     },
     {
       "module": "java.base",
@@ -11538,6 +11670,26 @@
     },
     {
       "module": "javafx.graphics",
+      "glob": "com/sun/prism/es2/glsl/FillPgram_Color.frag"
+    },
+    {
+      "module": "javafx.graphics",
+      "glob": "com/sun/prism/es2/glsl/Solid_TextureRGB.frag"
+    },
+    {
+      "module": "javafx.graphics",
+      "glob": "com/sun/prism/es2/glsl/Texture_Color.frag"
+    },
+    {
+      "module": "javafx.graphics",
+      "glob": "com/sun/prism/es2/glsl/Texture_LinearGradient_PAD.frag"
+    },
+    {
+      "module": "javafx.graphics",
+      "glob": "com/sun/scenario/effect/impl/es2/glsl/Blend_SRC_IN.frag"
+    },
+    {
+      "module": "javafx.graphics",
       "glob": "com/sun/scenario/effect/impl/hw/d3d/hlsl/Blend_SRC_IN.obj"
     },
     {
@@ -11549,7 +11701,6 @@
       "glob": "jdk/jfr/internal/query/view.ini"
     }
   ],
-  
   "bundles": [
     {
       "name": "com.sun.javafx.tk.quantum.QuantumMessagesBundle",
@@ -12327,7 +12478,6 @@
         "no",
         "no-Latn-NO",
         "no-NO",
-        "no-NO-NY",
         "nqo",
         "nqo-GN",
         "nqo-Nkoo-GN",
@@ -12769,13 +12919,94 @@
       "type": "[Lcom.sun.management.internal.DiagnosticCommandInfo;"
     },
     {
+      "type": "[Ljava.lang.String;"
+    },
+    {
+      "type": "[Ljavafx.scene.paint.Color;"
+    },
+    {
       "type": "com.sun.glass.ui.Application",
       "methods": [
+        {
+          "name": "createPixels",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int[]",
+            "float",
+            "float"
+          ]
+        },
+        {
+          "name": "enterNestedEventLoop",
+          "parameterTypes": []
+        },
+        {
+          "name": "getScaleFactor",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "leaveNestedEventLoop",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        },
+        {
+          "name": "notifyDidBecomeActive",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyDidFinishLaunching",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyDidHide",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyDidResignActive",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyDidUnhide",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyOpenFiles",
+          "parameterTypes": [
+            "java.lang.String[]"
+          ]
+        },
         {
           "name": "notifyPreferencesChanged",
           "parameterTypes": [
             "java.util.Map"
           ]
+        },
+        {
+          "name": "notifyWillBecomeActive",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyWillFinishLaunching",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyWillHide",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyWillResignActive",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyWillUnhide",
+          "parameterTypes": []
         },
         {
           "name": "reportException",
@@ -12819,7 +13050,47 @@
       ]
     },
     {
+      "type": "com.sun.glass.ui.Menu",
+      "methods": [
+        {
+          "name": "notifyMenuClosed",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyMenuOpening",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.glass.ui.MenuItem$Callback",
+      "methods": [
+        {
+          "name": "action",
+          "parameterTypes": []
+        },
+        {
+          "name": "validate",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.sun.glass.ui.Pixels",
+      "fields": [
+        {
+          "name": "height"
+        },
+        {
+          "name": "scalex"
+        },
+        {
+          "name": "scaley"
+        },
+        {
+          "name": "width"
+        }
+      ],
       "methods": [
         {
           "name": "attachData",
@@ -12898,6 +13169,12 @@
             "int",
             "int",
             "int",
+            "int"
+          ]
+        },
+        {
+          "name": "notifyDragEnd",
+          "parameterTypes": [
             "int"
           ]
         },
@@ -12986,6 +13263,13 @@
           ]
         },
         {
+          "name": "notifyResize",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        },
+        {
           "name": "notifyScroll",
           "parameterTypes": [
             "int",
@@ -13062,6 +13346,67 @@
             "float",
             "float",
             "float"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacApplication",
+      "methods": [
+        {
+          "name": "notifyApplicationDidTerminate",
+          "parameterTypes": []
+        },
+        {
+          "name": "setEventThread",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacMenuDelegate",
+      "fields": [
+        {
+          "name": "menu"
+        }
+      ]
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacPixels"
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacView",
+      "methods": [
+        {
+          "name": "notifyInputMethodMac",
+          "parameterTypes": [
+            "java.lang.String",
+            "int",
+            "int",
+            "int",
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.glass.ui.mac.MacWindow",
+      "methods": [
+        {
+          "name": "notifyMove",
+          "parameterTypes": [
+            "int",
+            "int",
+            "boolean"
+          ]
+        },
+        {
+          "name": "notifyResize",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int"
           ]
         }
       ]
@@ -13199,9 +13544,96 @@
           "name": "notifyResize",
           "parameterTypes": [
             "int",
+            "int"
+          ]
+        },
+        {
+          "name": "notifyResize",
+          "parameterTypes": [
+            "int",
             "int",
             "int"
           ]
+        }
+      ]
+    },
+    {
+      "type": "com.sun.javafx.font.coretext.CGAffineTransform",
+      "fields": [
+        {
+          "name": "a"
+        },
+        {
+          "name": "b"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "d"
+        },
+        {
+          "name": "tx"
+        },
+        {
+          "name": "ty"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.javafx.font.coretext.CGPoint",
+      "fields": [
+        {
+          "name": "x"
+        },
+        {
+          "name": "y"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.javafx.font.coretext.CGRect",
+      "fields": [
+        {
+          "name": "origin"
+        },
+        {
+          "name": "size"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "com.sun.javafx.font.coretext.CGSize",
+      "fields": [
+        {
+          "name": "height"
+        },
+        {
+          "name": "width"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
         }
       ]
     },
@@ -13616,6 +14048,16 @@
           "parameterTypes": [
             "boolean"
           ]
+        },
+        {
+          "name": "booleanValue",
+          "parameterTypes": []
+        },
+        {
+          "name": "getBoolean",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
         }
       ]
     },
@@ -13667,6 +14109,10 @@
             "boolean",
             "java.lang.ClassLoader"
           ]
+        },
+        {
+          "name": "getCanonicalName",
+          "parameterTypes": []
         },
         {
           "name": "getComponentType",
@@ -13728,6 +14174,10 @@
           "parameterTypes": [
             "int"
           ]
+        },
+        {
+          "name": "intValue",
+          "parameterTypes": []
         }
       ]
     },
@@ -13758,6 +14208,10 @@
           "parameterTypes": [
             "long"
           ]
+        },
+        {
+          "name": "longValue",
+          "parameterTypes": []
         }
       ]
     },
@@ -13831,6 +14285,18 @@
           ]
         },
         {
+          "name": "lastIndexOf",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
+          "name": "substring",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
           "name": "toCharArray",
           "parameterTypes": []
         }
@@ -13842,6 +14308,13 @@
         {
           "name": "getProperty",
           "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setProperty",
+          "parameterTypes": [
+            "java.lang.String",
             "java.lang.String"
           ]
         }
@@ -14011,8 +14484,25 @@
       ]
     },
     {
+      "type": "java.util.List",
+      "methods": [
+        {
+          "name": "add",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
       "type": "java.util.Map",
       "methods": [
+        {
+          "name": "get",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        },
         {
           "name": "put",
           "parameterTypes": [

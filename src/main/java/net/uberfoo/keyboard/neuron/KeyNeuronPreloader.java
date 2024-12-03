@@ -1,5 +1,6 @@
 package net.uberfoo.keyboard.neuron;
 
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -34,7 +35,7 @@ public class KeyNeuronPreloader extends Preloader {
     @Override
     public void handleStateChangeNotification(StateChangeNotification evt) {
         if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
-            preloaderStage.hide();
+            Platform.runLater(() -> preloaderStage.hide());
         }
     }
 }
