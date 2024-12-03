@@ -35,7 +35,7 @@ public class MainController {
     public MainController(KeyboardHidService keyboardHidService) throws IOException, GitAPIException {
         this.keyboardHidService = keyboardHidService;
 
-        processService = new WindowsProcessService();
+        processService = ProcessServiceFactory.createProcessService();
 
         var consumer = new Consumer<ProcessInfo>() {
             @Override
