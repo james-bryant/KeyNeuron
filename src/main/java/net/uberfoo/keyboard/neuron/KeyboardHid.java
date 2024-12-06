@@ -21,19 +21,18 @@ public class KeyboardHid {
     public KeyboardHid(final HidDevice device, Keyboard keyboard) {
         this.device = device;
         this.keyboard = keyboard;
-        if (device.isClosed()) {
-            device.open();
-        }
     }
 
     public void sendRGBMatrixMode(int mode) {
         byte[] data = newPacket((byte)0xB1, 4);
-        data[0] = (byte) 0x07;
-        data[1] = (byte) 0xFF;
-        data[2] = (byte) 0xB1; // Command Indicator
         data[3] = (byte) mode;
 
+        if (device.isClosed()) {
+            var open = device.open();
+            System.out.printf("device open: %b%n", open);
+        }
         device.write(data, data.length, (byte)0x00);
+        device.close();
     }
 
     public void sendPerKeyColors(Map<Integer, Map<Integer, int[]>> keyColorMap) {
@@ -41,6 +40,11 @@ public class KeyboardHid {
         int MAX_KEYS_PER_PACKET = (PACKET_SIZE - 4) / 5;
 
         int numKeys = keyColorMap.values().stream().mapToInt(Map::size).sum();
+
+        if (device.isClosed()) {
+            var open = device.open();
+            System.out.printf("device open: %b%n", open);
+        }
 
         new Thread(() -> {
             List<Integer> keys = new ArrayList<>(keyColorMap.keySet());
@@ -78,12 +82,13 @@ public class KeyboardHid {
                     Thread.currentThread().interrupt();
                 }
             }
+            device.close();
         }).start();
 
     }
 
     private byte[] newPacket(byte command, int length) {
-        byte[] data = new byte[length];
+        byte[] data = new byte[32];
         data[0] = (byte) 0x07;
         data[1] = (byte) 0xFF;
         data[2] = command;

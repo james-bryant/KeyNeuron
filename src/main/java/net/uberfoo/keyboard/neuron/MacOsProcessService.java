@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 
 public class MacOsProcessService extends AbstractProcessService {
 
+    private String lastProcess = "";
+    private String lastPid = "";
+
     @Override
     protected Runnable getRunner() {
         return () -> {
@@ -15,7 +18,13 @@ public class MacOsProcessService extends AbstractProcessService {
                 String[] command = {
                         "osascript",
                         "-e",
-                        "tell application \"System Events\" to get {name, unix id} of first application process whose frontmost is true"
+                        "tell application \"System Events\"",
+                        "-e",
+                        "set frontProcess to first process whose frontmost is true",
+                        "-e",
+                        "get {name, unix id} of frontProcess",
+                        "-e",
+                        "end tell"
                 };
 
                 // Execute the command using ProcessBuilder
@@ -33,8 +42,13 @@ public class MacOsProcessService extends AbstractProcessService {
                     String appName = details[0].trim();
                     String pid = details[1].trim();
 
-                    var info = new ProcessInfo(appName, appName, Integer.parseInt(pid));
-                    notifyConsumer(info);
+                    if (!pid.equals(lastPid)) {
+                        var info = new ProcessInfo(appName, appName, Integer.parseInt(pid));
+                        notifyConsumer(info);
+                        lastProcess = appName;
+                        lastPid = pid;
+                    }
+
                 } else {
                     System.out.println("Unable to fetch details of the foreground application.");
                 }
